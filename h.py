@@ -27,12 +27,12 @@ print(colored('IPv4:\n', 'green'))
 myResolver = dns.resolver.Resolver()
 
 try:
-    myAnswers = myResolver.query(D, "A")
+    myAnswers = myResolver.resolve(D, "A")
     for rdata in myAnswers:
         try:
             ip=str(rdata)
             n = dns.reversename.from_address(ip)
-            ptrs=dns.resolver.query(n,"PTR")
+            ptrs=dns.resolver.resolve(n,"PTR")
             for num in ptrs:
                 print("A:\t"+D+" -> "+str(rdata)+" -> "+str(num))
         except:
@@ -42,15 +42,15 @@ except:
 print("")
 
 try:
-    myAnswers = myResolver.query(D, "MX")
+    myAnswers = myResolver.resolve(D, "MX")
     for rdata in myAnswers:
         try:
-            myAnswersA = myResolver.query(rdata.exchange, "A")
+            myAnswersA = myResolver.resolve(rdata.exchange, "A")
             for ips in myAnswersA:
                 ip=str(ips)
                 try:
                     n = dns.reversename.from_address(ip)
-                    ptrs=dns.resolver.query(n,"PTR")
+                    ptrs=dns.resolver.resolve(n,"PTR")
                     for num in ptrs:
                         print("MX: "+str(rdata.preference)+"\t"+str(rdata.exchange)+" -> "+str(ips)+" -> "+str(num))
                 except:
@@ -63,15 +63,15 @@ print("")
 
 
 try:
-    myAnswers = myResolver.query(D, "NS")
+    myAnswers = myResolver.resolve(D, "NS")
     for rdata in myAnswers:
         try:
-            myAnswersA = myResolver.query(str(rdata), "A")
+            myAnswersA = myResolver.resolve(str(rdata), "A")
             for ips in myAnswersA:
                 ip=str(ips)
                 try:
                     n = dns.reversename.from_address(ip)
-                    ptrs=dns.resolver.query(n,"PTR")
+                    ptrs=dns.resolver.resolve(n,"PTR")
                     for num in ptrs:
                         print("NS: "+str(rdata)+" -> "+str(ips)+" -> "+str(num))
                 except:
@@ -84,12 +84,12 @@ print("\n")
 
 print(colored('IPv6:\n', 'green'))
 try:
-    myAnswers = myResolver.query(D, "AAAA")
+    myAnswers = myResolver.resolve(D, "AAAA")
     for rdata in myAnswers:
         ip=str(rdata)
         n = dns.reversename.from_address(ip)
         try:
-            ptrs=dns.resolver.query(n,"PTR")
+            ptrs=dns.resolver.resolve(n,"PTR")
             for num in ptrs:
                 print("AAAA:\t"+D+" -> "+str(rdata)+" -> "+str(num))
         except:
@@ -99,15 +99,15 @@ except:
 print("")
 
 try:
-    myAnswers = myResolver.query(D, "MX")
+    myAnswers = myResolver.resolve(D, "MX")
     for rdata in myAnswers:
         try:
-            myAnswersA = myResolver.query(rdata.exchange, "AAAA")
+            myAnswersA = myResolver.resolve(rdata.exchange, "AAAA")
             for ips in myAnswersA:
                 ip=str(ips)
                 try:
                     n = dns.reversename.from_address(ip)
-                    ptrs=dns.resolver.query(n,"PTR")
+                    ptrs=dns.resolver.resolve(n,"PTR")
                     for num in ptrs:
                         print("MX: "+str(rdata.preference)+"\t"+str(rdata.exchange)+" -> "+str(ips)+" -> "+str(num))
                 except:
@@ -120,15 +120,15 @@ print("")
 
 
 try:
-    myAnswers = myResolver.query(D, "NS")
+    myAnswers = myResolver.resolve(D, "NS")
     for rdata in myAnswers:
         try:
-            myAnswersA = myResolver.query(str(rdata), "AAAA")
+            myAnswersA = myResolver.resolve(str(rdata), "AAAA")
             for ips in myAnswersA:
                 ip=str(ips)
                 try:
                     n = dns.reversename.from_address(ip)
-                    ptrs=dns.resolver.query(n,"PTR")
+                    ptrs=dns.resolver.resolve(n,"PTR")
                     for num in ptrs:
                         print("NS: "+str(rdata)+" -> "+str(ips)+" -> "+str(num))
                 except:
@@ -142,7 +142,7 @@ print("")
 print(colored('Other:\n', 'green'))
 
 try:
-    myAnswers = myResolver.query(D, "TXT")
+    myAnswers = myResolver.resolve(D, "TXT")
     for rdata in myAnswers:
         print("TXT:\t"+str(rdata))
 except:
@@ -150,7 +150,7 @@ except:
 print("")
 
 try:
-    myAnswers = myResolver.query(D, "SOA")
+    myAnswers = myResolver.resolve(D, "SOA")
     for rdata in myAnswers:
         print("SOA:\t"+str(rdata))
 except:
